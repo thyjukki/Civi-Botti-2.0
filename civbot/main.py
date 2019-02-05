@@ -1,32 +1,25 @@
 import os
 import sys
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+
+from peewee import SqliteDatabase
 from telegram.ext import Updater
-from dotenv import load_dotenv
 
 from civbot.commands import cmd_register, cmd_start
-import civbot.models
-
-engine = None
+from civbot.models import database_proxy
 
 
 def main():
-    global session
-    load_dotenv()
-    db_engine = create_engine('sqlite:///db.sqlite', echo=True)
-    civbot.models.base_model.BaseModel.metadata.create_all(db_engine)
-    session_builder = sessionmaker(bind=db_engine)
-    session = session_builder()
+    database = SqliteDatabase('local.db')
 
+    database_proxy.initialize(database)
     try:
         updater = Updater(token=os.environ['TG_TOKEN'])
     except KeyError:
         print("Please set the environment variable TG_TOKEN")
         sys.exit(1)
     dispatcher = updater.dispatcher
-    dispatcher.add_handler(cmd_start.handle(session))
-    dispatcher.add_handler(cmd_register.handle(session))
+    dispatcher.add_handler(cmd_start.handle())
+    dispatcher.add_handler(cmd_register.handle())
 
     updater.start_polling()
 
