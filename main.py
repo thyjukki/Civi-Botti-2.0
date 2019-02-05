@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 import models
 
-from commands import cmd_start
+from commands import cmd_start, cmd_register
 
 engine = None
 
@@ -17,8 +17,8 @@ def main():
     load_dotenv()
     db_engine = create_engine('sqlite:///db.sqlite', echo=True)
     models.base_model.BaseModel.metadata.create_all(db_engine)
-    Session = sessionmaker(bind=db_engine)
-    session = Session()
+    session_builder = sessionmaker(bind=db_engine)
+    session = session_builder()
 
     try:
         updater = Updater(token=os.environ['TG_TOKEN'])

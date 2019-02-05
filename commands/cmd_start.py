@@ -13,10 +13,6 @@ def start_message(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text=msg)
 
 
-def ping():
-    return "ping"
-
-
 def handle(s):
     global session
     session = s
