@@ -27,6 +27,7 @@ def main():
         sys.exit(1)
     dispatcher = updater.dispatcher
     dispatcher.add_handler(cmd_start.handle(session))
+    dispatcher.add_handler(cmd_register.handle(session))
 
     updater.start_polling()
 
