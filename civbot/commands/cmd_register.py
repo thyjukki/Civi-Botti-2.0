@@ -1,6 +1,7 @@
 from telegram import ReplyKeyboardRemove
 from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, Filters
 
+import gmr
 from civbot.models import User
 
 AUTHKEY = 1
@@ -23,6 +24,12 @@ def register(bot, update):
 
 
 def authkey(bot, update):
+    auth_key = gmr.get_steam_id_from_auth(update.message.text)
+
+    if auth_key == 'null':
+        bot.send_message(chat_id=update.message.chat_id, text="Authkey incorrect, try again (/cancel to end)")
+        return AUTHKEY
+
     pass
 
 
