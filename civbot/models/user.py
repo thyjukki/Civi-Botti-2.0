@@ -1,6 +1,6 @@
 from sqlalchemy import BigInteger, Column, String
 
-from models.base_model import BaseModel
+from civbot.models.base_model import BaseModel
 
 
 class User(BaseModel):

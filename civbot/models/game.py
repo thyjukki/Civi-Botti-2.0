@@ -1,7 +1,7 @@
 from sqlalchemy import Column, ForeignKey, BigInteger, String, Boolean
 from sqlalchemy.orm import relationship
 
-from models.base_model import BaseModel
+from civbot.models.base_model import BaseModel
 
 
 class Game(BaseModel):

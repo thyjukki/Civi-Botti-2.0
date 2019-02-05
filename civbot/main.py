@@ -5,9 +5,8 @@ from sqlalchemy.orm import sessionmaker
 from telegram.ext import Updater
 from dotenv import load_dotenv
 
-import models
-
-from commands import cmd_start, cmd_register
+from civbot.commands import cmd_register, cmd_start
+import civbot.models
 
 engine = None
 
@@ -16,7 +15,7 @@ def main():
     global session
     load_dotenv()
     db_engine = create_engine('sqlite:///db.sqlite', echo=True)
-    models.base_model.BaseModel.metadata.create_all(db_engine)
+    civbot.models.base_model.BaseModel.metadata.create_all(db_engine)
     session_builder = sessionmaker(bind=db_engine)
     session = session_builder()
 

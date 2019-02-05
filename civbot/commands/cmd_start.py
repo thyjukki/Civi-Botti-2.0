@@ -1,6 +1,6 @@
 from telegram.ext import CommandHandler
 
-from models.user import User
+from civbot.models.user import User
 
 
 def start_message(bot, update):
