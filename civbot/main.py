@@ -1,17 +1,24 @@
 import os
 import sys
+import logging
 
 from peewee import SqliteDatabase
 from telegram.ext import Updater
 
 from civbot.commands import cmd_register, cmd_start
-from civbot.models import database_proxy
+from civbot.models import database_proxy, User
 
 
 def main():
-    database = SqliteDatabase('local.db')
+    logging.basicConfig(
+        level=logging.DEBUG,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+
+    database = SqliteDatabase('db.sqlite')
 
     database_proxy.initialize(database)
+    database.create_tables([User])
     try:
         updater = Updater(token=os.environ['TG_TOKEN'])
     except KeyError:
