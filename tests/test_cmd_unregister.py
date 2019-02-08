@@ -24,7 +24,7 @@ class TestUnregister(TestCase):
         self.assertEqual(cmd_unregister.VERIFY, cmd_unregister.unregister(bot_mock, update_mock))
         bot_mock.send_message.assert_called_with(
             chat_id=update_mock.message.chat_id,
-            text="Are you sure you want to register."
+            text="Are you sure you want to unregister."
                  "You will stop receiving notifications from current games."
                  "Your steam id is still kept in order for active games to function."
                  "You can register back anytime to continue receiving notifications.",
