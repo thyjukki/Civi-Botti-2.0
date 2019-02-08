@@ -10,7 +10,7 @@ def start_message(bot, update):
 
     if not user:
         msg += '\nRun /register to get started'
-    bot.send_message(chat_id=update.message.chat_id, text=msg)
+    update.message.reply_text(msg)
 
 
 def handle():

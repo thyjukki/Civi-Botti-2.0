@@ -21,7 +21,7 @@ class TestRegister(TestCase):
         update_mock.message.from_user.id = 0
 
         self.assertEqual(cmd_register.AUTHKEY, cmd_register.register(bot_mock, update_mock))
-        bot_mock.send_message.assert_called()
+        update_mock.message.reply_text.assert_called()
 
     def test_register_fails_if_registered(self):
         database = SqliteDatabase(':memory:')
@@ -35,6 +35,7 @@ class TestRegister(TestCase):
         update_mock.message.from_user.id = 111
 
         self.assertEqual(ConversationHandler.END, cmd_register.register(bot_mock, update_mock))
+        update_mock.message.reply_text.assert_called()
 
     @patch('civbot.gmr.get_steam_id_from_auth')
     def test_authkey_should_retry_if_fail(self, mock_gmr):
@@ -52,10 +53,7 @@ class TestRegister(TestCase):
 
         self.assertEqual(cmd_register.AUTHKEY, cmd_register.authkey(bot_mock, update_mock))
 
-        bot_mock.send_message.assert_called_with(
-            chat_id=update_mock.message.chat_id,
-            text="Authkey incorrect, try again (/cancel to end)"
-        )
+        update_mock.message.reply_text.assert_called_with("Authkey incorrect, try again (/cancel to end)")
         mock_gmr.assert_called_with('auth_key')
 
         user = User.get_or_none(User.id == 232)
@@ -74,10 +72,7 @@ class TestRegister(TestCase):
 
         self.assertEqual(ConversationHandler.END, cmd_register.authkey(bot_mock, update_mock))
 
-        bot_mock.send_message.assert_called_with(
-            chat_id=update_mock.message.chat_id,
-            text="Successfully registered with steam id steam_id"
-        )
+        update_mock.message.reply_text.assert_called_with("Successfully registered with steam id steam_id")
         mock_gmr.assert_called_with('auth_key')
 
         user = User.get_or_none(User.id == 111)

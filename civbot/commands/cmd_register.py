@@ -1,9 +1,9 @@
-from telegram import ReplyKeyboardRemove
 from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, Filters
 
 from civbot import gmr
-from civbot.models import User
+from civbot.commands.cmd_cancel import cancel_all
 from civbot.exceptions import InvalidAuthKey
+from civbot.models import User
 
 AUTHKEY = 1
 
@@ -12,12 +12,11 @@ def register(bot, update):
     user = User.get_or_none(User.id == update.message.from_user.id)
 
     if user:
-        bot.send_message(chat_id=update.message.chat_id, text="You are already registered!")
+        update.message.reply_text("You are already registered!")
         return ConversationHandler.END
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text="Provide GMR Authentication key"
+    update.message.reply_text(
+        "Provide GMR Authentication key"
         "Authentication key can be acquired from http://multiplayerrobot.com/Download"
     )
 
@@ -28,7 +27,7 @@ def authkey(bot, update):
     try:
         steam_id = gmr.get_steam_id_from_auth(update.message.text)
     except InvalidAuthKey:
-        bot.send_message(chat_id=update.message.chat_id, text="Authkey incorrect, try again (/cancel to end)")
+        update.message.reply_text("Authkey incorrect, try again (/cancel to end)")
         return AUTHKEY
 
     User.create(
@@ -37,20 +36,7 @@ def authkey(bot, update):
         authorization_key=update.message.text
     )
 
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text=f"Successfully registered with steam id {steam_id}"
-    )
-
-    return ConversationHandler.END
-
-
-def cancel(bot, update):
-    bot.send_message(
-        chat_id=update.message.chat_id,
-        text="Canceled!",
-        reply_markup=ReplyKeyboardRemove()
-    )
+    update.message.reply_text(f"Successfully registered with steam id {steam_id}")
 
     return ConversationHandler.END
 
@@ -64,5 +50,5 @@ def handle():
             AUTHKEY: [MessageHandler(Filters.text, authkey)],
         },
 
-        fallbacks=[CommandHandler('cancel', cancel)]
+        fallbacks=[CommandHandler('cancel', cancel_all)]
     )

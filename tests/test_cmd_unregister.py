@@ -22,12 +22,11 @@ class TestUnregister(TestCase):
         update_mock.message.from_user.id = 111
 
         self.assertEqual(cmd_unregister.VERIFY, cmd_unregister.unregister(bot_mock, update_mock))
-        bot_mock.send_message.assert_called_with(
-            chat_id=update_mock.message.chat_id,
-            text="Are you sure you want to unregister."
-                 "You will stop receiving notifications from current games."
-                 "Your steam id is still kept in order for active games to function."
-                 "You can register back anytime to continue receiving notifications.",
+        update_mock.message.reply_text.assert_called_with(
+            "Are you sure you want to unregister."
+            "You will stop receiving notifications from current games."
+            "Your steam id is still kept in order for active games to function."
+            "You can register back anytime to continue receiving notifications.",
             reply_markup=mock_keyboard
         )
         mock_keyboard.assert_called()
@@ -42,9 +41,7 @@ class TestUnregister(TestCase):
         update_mock.message.from_user.id = 111
 
         self.assertEqual(ConversationHandler.END, cmd_unregister.unregister(bot_mock, update_mock))
-        bot_mock.send_message.assert_called_with(
-            chat_id=update_mock.message.chat_id,
-            text="You are not registered!")
+        update_mock.message.reply_text.assert_called_with("You are not registered!")
 
     @patch('telegram.ReplyKeyboardRemove')
     def test_verify_should_cancel_if_no(self, mock_keyboard):
@@ -60,9 +57,8 @@ class TestUnregister(TestCase):
         mock_keyboard.return_value = mock_keyboard
 
         self.assertEqual(ConversationHandler.END, cmd_unregister.verify(bot_mock, update_mock))
-        bot_mock.send_message.assert_called_with(
-            chat_id=update_mock.message.chat_id,
-            text="Canceling unregistering, your data was not removed!",
+        update_mock.message.reply_text.assert_called_with(
+            "Canceling unregistering, your data was not removed!",
             reply_markup=mock_keyboard
         )
         self.assertIsNotNone(User.get_or_none(User.id == 111))
@@ -81,9 +77,8 @@ class TestUnregister(TestCase):
         mock_keyboard.return_value = mock_keyboard
 
         self.assertEqual(ConversationHandler.END, cmd_unregister.verify(bot_mock, update_mock))
-        bot_mock.send_message.assert_called_with(
-            chat_id=update_mock.message.chat_id,
-            text="Unregistered, your user data was removed!",
+        update_mock.message.reply_text.assert_called_with(
+            "Unregistered, your user data was removed!",
             reply_markup=mock_keyboard
         )
         self.assertIsNone(User.get_or_none(User.id == 111))
