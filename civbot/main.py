@@ -5,7 +5,7 @@ import logging
 from peewee import SqliteDatabase
 from telegram.ext import Updater
 
-from civbot.commands import cmd_register, cmd_start
+from civbot.commands import cmd_register, cmd_unregister, cmd_start
 from civbot.models import database_proxy, User
 
 
@@ -27,6 +27,7 @@ def main():
     dispatcher = updater.dispatcher
     dispatcher.add_handler(cmd_start.handle())
     dispatcher.add_handler(cmd_register.handle())
+    dispatcher.add_handler(cmd_unregister.handle())
 
     updater.start_polling()
 

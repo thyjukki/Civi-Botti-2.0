@@ -19,7 +19,7 @@ def unregister(bot, update):
 
     bot.send_message(
         chat_id=update.message.chat_id,
-        text="Are you sure you want to register."
+        text="Are you sure you want to unregister."
              "You will stop receiving notifications from current games."
              "Your steam id is still kept in order for active games to function."
              "You can register back anytime to continue receiving notifications.",
