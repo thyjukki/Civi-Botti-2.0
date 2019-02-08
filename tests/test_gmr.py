@@ -12,7 +12,7 @@ class TestGmr(TestCase):
         self.assertEquals(steam_id, gmr.get_steam_id_from_auth(auth_key))
 
     def test_get_steam_id_from_auth_invalid(self):
-        self.failureException(
+        self.assertRaises(
             InvalidAuthKey,
-            gmr.get_steam_id_from_auth('NULL')
+            gmr.get_steam_id_from_auth('null')
         )

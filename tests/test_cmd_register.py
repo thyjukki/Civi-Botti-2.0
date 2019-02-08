@@ -6,7 +6,7 @@ from telegram.ext import ConversationHandler
 
 from civbot.commands import cmd_register
 from civbot.models import database_proxy, User
-from exceptions import InvalidAuthKey
+from civbot.exceptions import InvalidAuthKey
 
 
 class TestRegister(TestCase):
