@@ -3,7 +3,6 @@ from unittest.mock import Mock, patch
 
 from peewee import SqliteDatabase
 from telegram.ext import ConversationHandler
-from telegram import ReplyKeyboardMarkup
 
 from civbot.commands import cmd_unregister
 from civbot.models import database_proxy, User
@@ -47,8 +46,45 @@ class TestUnregister(TestCase):
             chat_id=update_mock.message.chat_id,
             text="You are not registered!")
 
-    def test_verify_should_cancel_if_no(self):
-        pass
+    @patch('telegram.ReplyKeyboardRemove')
+    def test_verify_should_cancel_if_no(self, mock_keyboard):
+        database = SqliteDatabase(':memory:')
+        database_proxy.initialize(database)
+        database.create_tables([User])
+        User.create(id=111, steam_id='', authorization_key='')
 
-    def test_verify_should_remove_user_if_yes(self):
-        pass
+        bot_mock = Mock()
+        update_mock = Mock()
+        update_mock.message.from_user.id = 111
+        update_mock.message.text = 'No'
+        mock_keyboard.return_value = mock_keyboard
+
+        self.assertEqual(ConversationHandler.END, cmd_unregister.unregister(bot_mock, update_mock))
+        bot_mock.send_message.assert_called_with(
+            chat_id=update_mock.message.chat_id,
+            text="Canceling unregistering, your data was not removed!",
+            reply_markup=mock_keyboard
+        )
+        self.assertIsNotNone(User.get_or_none(User.id == 111))
+
+    @patch('telegram.ReplyKeyboardRemove')
+    def test_verify_should_remove_user_if_yes(self, mock_keyboard):
+        database = SqliteDatabase(':memory:')
+        database_proxy.initialize(database)
+        database.create_tables([User])
+        User.create(id=111, steam_id='', authorization_key='')
+
+        bot_mock = Mock()
+        update_mock = Mock()
+        update_mock.message.from_user.id = 111
+        update_mock.message.text = 'Yes'
+        mock_keyboard.return_value = mock_keyboard
+
+        self.assertEqual(ConversationHandler.END, cmd_unregister.unregister(bot_mock, update_mock))
+        bot_mock.send_message.assert_called_with(
+            chat_id=update_mock.message.chat_id,
+            text="Unregistered, your user data was removed!",
+            reply_markup=mock_keyboard
+        )
+        self.assertIsNone(User.get_or_none(User.id == 111))
+

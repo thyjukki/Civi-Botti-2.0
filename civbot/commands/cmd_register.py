@@ -1,7 +1,7 @@
 from telegram import ReplyKeyboardRemove
 from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, Filters
 
-import gmr
+from civbot import gmr
 from civbot.models import User
 from civbot.exceptions import InvalidAuthKey
 

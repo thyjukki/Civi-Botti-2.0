@@ -14,5 +14,6 @@ class TestGmr(TestCase):
     def test_get_steam_id_from_auth_invalid(self):
         self.assertRaises(
             InvalidAuthKey,
-            gmr.get_steam_id_from_auth('null')
+            gmr.get_steam_id_from_auth,
+            'null'
         )

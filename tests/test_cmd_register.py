@@ -3,6 +3,7 @@ from unittest.mock import Mock, patch
 
 from peewee import SqliteDatabase
 from telegram.ext import ConversationHandler
+from civbot import gmr
 
 from civbot.commands import cmd_register
 from civbot.models import database_proxy, User
@@ -35,7 +36,7 @@ class TestRegister(TestCase):
 
         self.assertEqual(ConversationHandler.END, cmd_register.register(bot_mock, update_mock))
 
-    @patch('gmr.get_steam_id_from_auth')
+    @patch('civbot.gmr.get_steam_id_from_auth')
     def test_authkey_should_retry_if_fail(self, mock_gmr):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
@@ -60,7 +61,7 @@ class TestRegister(TestCase):
         user = User.get_or_none(User.id == 232)
         self.assertIsNone(user)
 
-    @patch('gmr.get_steam_id_from_auth', return_value='steam_id')
+    @patch('civbot.gmr.get_steam_id_from_auth', return_value='steam_id')
     def test_authkey_should_success_and_create_user(self, mock_gmr):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
