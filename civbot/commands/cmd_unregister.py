@@ -29,7 +29,26 @@ def unregister(bot, update):
 
 
 def verify(bot, update):
-    pass
+    user = User.get(User.id == update.message.from_user.id)
+
+    msg = update.message.text
+
+    reply_markup = telegram.ReplyKeyboardRemove()
+    if msg == 'Yes':
+        user.delete_instance()
+        bot.send_message(
+            chat_id=update.message.chat_id,
+            text="Unregistered, your user data was removed!",
+            reply_markup=reply_markup
+        )
+        return ConversationHandler.END
+
+    bot.send_message(
+        chat_id=update.message.chat_id,
+        text="Canceling unregistering, your data was not removed!",
+        reply_markup=reply_markup
+    )
+    return ConversationHandler.END
 
 
 def cancel(bot, update):

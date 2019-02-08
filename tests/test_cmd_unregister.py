@@ -59,7 +59,7 @@ class TestUnregister(TestCase):
         update_mock.message.text = 'No'
         mock_keyboard.return_value = mock_keyboard
 
-        self.assertEqual(ConversationHandler.END, cmd_unregister.unregister(bot_mock, update_mock))
+        self.assertEqual(ConversationHandler.END, cmd_unregister.verify(bot_mock, update_mock))
         bot_mock.send_message.assert_called_with(
             chat_id=update_mock.message.chat_id,
             text="Canceling unregistering, your data was not removed!",
@@ -80,7 +80,7 @@ class TestUnregister(TestCase):
         update_mock.message.text = 'Yes'
         mock_keyboard.return_value = mock_keyboard
 
-        self.assertEqual(ConversationHandler.END, cmd_unregister.unregister(bot_mock, update_mock))
+        self.assertEqual(ConversationHandler.END, cmd_unregister.verify(bot_mock, update_mock))
         bot_mock.send_message.assert_called_with(
             chat_id=update_mock.message.chat_id,
             text="Unregistered, your user data was removed!",
