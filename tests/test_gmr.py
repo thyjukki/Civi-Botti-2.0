@@ -23,13 +23,13 @@ class TestGmr(TestCase):
             'null'
         )
 
-    @requests_mock.get('requests.get')
+    @requests_mock.Mocker()
     def test_get_games_should_return_list_of_games(self, mock_request):
         json_data = json.load(open('./fixtures/game_request.json'))
 
         game_data = json_data['Games']
 
-        mock_request.return_value = str(json_data)
+        mock_request.get(requests_mock.ANY, json=json_data)
 
         games = gmr.get_games(os.getenv('TEST_STEAM_ID'), os.getenv('TEST_AUTH_KEY'))
 
