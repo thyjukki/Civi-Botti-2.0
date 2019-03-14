@@ -1,4 +1,4 @@
-from peewee import Proxy, Model, CharField, BigIntegerField
+from peewee import Proxy, Model, CharField, BigIntegerField, IntegerField, ForeignKeyField
 
 database_proxy = Proxy()
 
@@ -12,3 +12,9 @@ class User(BaseModel):
     id = BigIntegerField(primary_key=True)
     steam_id = CharField()
     authorization_key = CharField()
+
+
+class Game(BaseModel):
+    id = IntegerField(primary_key=True)
+    owner = ForeignKeyField(User, backref='games')
+    name = CharField()

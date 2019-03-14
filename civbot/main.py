@@ -5,8 +5,8 @@ import logging
 from peewee import SqliteDatabase
 from telegram.ext import Updater
 
-from civbot.commands import cmd_register, cmd_unregister, cmd_start
-from civbot.models import database_proxy, User
+from civbot.commands import cmd_register, cmd_unregister, cmd_start, cmd_new_game
+from civbot.models import database_proxy, User, Game
 
 
 def main():
@@ -18,7 +18,7 @@ def main():
     database = SqliteDatabase('db.sqlite')
 
     database_proxy.initialize(database)
-    database.create_tables([User])
+    database.create_tables([User, Game])
     try:
         updater = Updater(token=os.environ['TG_TOKEN'])
     except KeyError:
@@ -28,6 +28,7 @@ def main():
     dispatcher.add_handler(cmd_start.handle())
     dispatcher.add_handler(cmd_register.handle())
     dispatcher.add_handler(cmd_unregister.handle())
+    dispatcher.add_handler(cmd_new_game.handle())
 
     updater.start_polling()
 
