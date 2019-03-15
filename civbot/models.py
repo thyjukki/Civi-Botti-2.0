@@ -18,3 +18,8 @@ class Game(BaseModel):
     id = IntegerField(primary_key=True)
     owner = ForeignKeyField(User, backref='games')
     name = CharField()
+
+
+class Subscription(BaseModel):
+    game = ForeignKeyField(Game, backref='subscriptions')
+    chat_id = BigIntegerField()

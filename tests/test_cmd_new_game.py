@@ -9,7 +9,7 @@ from civbot.commands import cmd_new_game
 from civbot.models import database_proxy, User, Game
 
 
-class TestAddGame(TestCase):
+class TestNewGame(TestCase):
     def test_add_game_should_fail_if_not_registered(self):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
@@ -50,7 +50,8 @@ class TestAddGame(TestCase):
         update_mock = Mock()
         update_mock.message.from_user.id = 111
 
-        json_data = json.load(open('./fixtures/game_request.json'))
+        with open('./fixtures/game_request.json') as f:
+            json_data = json.load(f)
 
         game_data = json_data['Games']
         get_games_mock.return_value = game_data
@@ -71,7 +72,8 @@ class TestAddGame(TestCase):
         update_mock = Mock()
         update_mock.message.from_user.id = 111
 
-        json_data = json.load(open('./fixtures/game_request.json'))
+        with open('./fixtures/game_request.json') as f:
+            json_data = json.load(f)
 
         game_data = json_data['Games']
         get_games_mock.return_value = game_data
@@ -104,7 +106,8 @@ class TestAddGame(TestCase):
         update_mock.message.text = 'game'
         mock_keyboard.return_value = mock_keyboard
 
-        json_data = json.load(open('./fixtures/game_request.json'))
+        with open('./fixtures/game_request.json') as f:
+            json_data = json.load(f)
 
         game_data = json_data['Games']
         get_games_mock.return_value = game_data
@@ -127,7 +130,8 @@ class TestAddGame(TestCase):
         update_mock.message.text = 'Tietokilta Top Dictator 3.0'
         mock_keyboard.return_value = mock_keyboard
 
-        json_data = json.load(open('./fixtures/game_request.json'))
+        with open('./fixtures/game_request.json') as f:
+            json_data = json.load(f)
 
         game_data = json_data['Games']
         get_games_mock.return_value = game_data
@@ -149,7 +153,8 @@ class TestAddGame(TestCase):
         update_mock.message.text = 'Tietokilta Top Dictator 3.0'
         mock_keyboard.return_value = mock_keyboard
 
-        json_data = json.load(open('./fixtures/game_request.json'))
+        with open('./fixtures/game_request.json') as f:
+            json_data = json.load(f)
 
         game_data = json_data['Games']
         get_games_mock.return_value = game_data

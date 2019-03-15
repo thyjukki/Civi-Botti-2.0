@@ -14,7 +14,7 @@ class TestGmr(TestCase):
     def test_get_steam_id_from_auth(self):
         auth_key = os.getenv('TEST_AUTH_KEY')
         steam_id = os.getenv('TEST_STEAM_ID')
-        self.assertEquals(steam_id, gmr.get_steam_id_from_auth(auth_key))
+        self.assertEqual(steam_id, gmr.get_steam_id_from_auth(auth_key))
 
     def test_get_steam_id_from_auth_invalid(self):
         self.assertRaises(
@@ -25,7 +25,8 @@ class TestGmr(TestCase):
 
     @requests_mock.Mocker()
     def test_get_games_should_return_list_of_games(self, mock_request):
-        json_data = json.load(open('./fixtures/game_request.json'))
+        with open('./fixtures/game_request.json') as f:
+            json_data = json.load(f)
 
         game_data = json_data['Games']
 
@@ -33,5 +34,5 @@ class TestGmr(TestCase):
 
         games = gmr.get_games(os.getenv('TEST_STEAM_ID'), os.getenv('TEST_AUTH_KEY'))
 
-        self.assertEquals(game_data, games)
+        self.assertEqual(game_data, games)
 
