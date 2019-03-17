@@ -3,8 +3,8 @@ node('virtualenv&&python3') {
     withEnv([
             'GMR_URL=http://multiplayerrobot.com',
             'TEST_STEAM_ID=76561198025213815',
-            'TEST_AUTH_KEY=${credentials('CIVI_BOT_TEST_AUTH_KEY')}',
-            'TG_TOKEN=${credentials('CIVI_BOT_TG_TOKEN')}'
+            "TEST_AUTH_KEY=${credentials('CIVI_BOT_TEST_AUTH_KEY')}",
+            "TG_TOKEN=${credentials('CIVI_BOT_TG_TOKEN')}"
         ]) {
         checkout scm
 
