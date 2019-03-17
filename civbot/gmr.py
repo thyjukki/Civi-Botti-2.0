@@ -5,7 +5,7 @@ import requests
 from civbot.exceptions import InvalidAuthKey
 
 
-def get_steam_id_from_auth(authkey: str) -> str:
+def get_steam_id_from_auth(authkey) -> str:
     url = os.getenv('GMR_URL') + "/api/Diplomacy/AuthenticateUser?authKey=" + authkey
 
     r = requests.get(url)

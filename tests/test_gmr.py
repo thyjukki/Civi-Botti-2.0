@@ -1,7 +1,6 @@
 import json
 import os
 from unittest import TestCase
-from unittest.mock import patch
 
 import requests_mock
 
@@ -25,7 +24,7 @@ class TestGmr(TestCase):
 
     @requests_mock.Mocker()
     def test_get_games_should_return_list_of_games(self, mock_request):
-        with open('./fixtures/game_request.json') as f:
+        with open((os.path.dirname(__file__))+'/fixtures/game_request.json') as f:
             json_data = json.load(f)
 
         game_data = json_data['Games']
@@ -35,4 +34,3 @@ class TestGmr(TestCase):
         games = gmr.get_games(os.getenv('TEST_STEAM_ID'), os.getenv('TEST_AUTH_KEY'))
 
         self.assertEqual(game_data, games)
-

@@ -1,4 +1,3 @@
-import json
 from unittest import TestCase
 from unittest.mock import patch, Mock
 
@@ -160,5 +159,5 @@ class TestAddGame(TestCase):
             f'Subscribed to {game_mock.name}. This chat will now start receiving notifications for the '
             'game. To get notifications, send /register to me as private message',
             reply_markup=mock_keyboard)
-        sub = Subscription.get_or_none(Subscription.game==game_mock, Subscription.chat_id==1234)
+        sub = Subscription.get_or_none(Subscription.game == game_mock, Subscription.chat_id == 1234)
         self.assertIsNotNone(sub)

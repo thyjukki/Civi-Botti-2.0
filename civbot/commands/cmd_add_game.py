@@ -1,9 +1,8 @@
 import telegram
 from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, Filters
 
-from civbot import gmr
 from civbot.commands.cmd_cancel import cancel_all
-from civbot.models import User, Game, Subscription
+from civbot.models import User, Subscription
 
 SELECT = 1
 
@@ -51,6 +50,7 @@ def add_game(bot, update):
     return SELECT
 
 
+# noinspection PyUnusedLocal
 def select_game(bot, update):
     if update.message.text == 'cancel':
         update.message.reply_text('Canceled', reply_markup=telegram.ReplyKeyboardRemove)

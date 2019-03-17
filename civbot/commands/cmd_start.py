@@ -3,6 +3,7 @@ from telegram.ext import CommandHandler
 from civbot.models import User
 
 
+# noinspection PyUnusedLocal
 def start_message(bot, update):
     user = User.get_or_none(User.id == update.message.from_user.id)
 

@@ -1,4 +1,5 @@
 import json
+import os
 from unittest import TestCase
 from unittest.mock import patch, Mock
 
@@ -50,7 +51,7 @@ class TestNewGame(TestCase):
         update_mock = Mock()
         update_mock.message.from_user.id = 111
 
-        with open('./fixtures/game_request.json') as f:
+        with open((os.path.dirname(__file__))+'/fixtures/game_request.json') as f:
             json_data = json.load(f)
 
         game_data = json_data['Games']
@@ -72,7 +73,7 @@ class TestNewGame(TestCase):
         update_mock = Mock()
         update_mock.message.from_user.id = 111
 
-        with open('./fixtures/game_request.json') as f:
+        with open((os.path.dirname(__file__))+'/fixtures/game_request.json') as f:
             json_data = json.load(f)
 
         game_data = json_data['Games']
@@ -106,7 +107,7 @@ class TestNewGame(TestCase):
         update_mock.message.text = 'game'
         mock_keyboard.return_value = mock_keyboard
 
-        with open('./fixtures/game_request.json') as f:
+        with open((os.path.dirname(__file__))+'/fixtures/game_request.json') as f:
             json_data = json.load(f)
 
         game_data = json_data['Games']
@@ -130,7 +131,7 @@ class TestNewGame(TestCase):
         update_mock.message.text = 'Tietokilta Top Dictator 3.0'
         mock_keyboard.return_value = mock_keyboard
 
-        with open('./fixtures/game_request.json') as f:
+        with open((os.path.dirname(__file__))+'/fixtures/game_request.json') as f:
             json_data = json.load(f)
 
         game_data = json_data['Games']
@@ -153,7 +154,7 @@ class TestNewGame(TestCase):
         update_mock.message.text = 'Tietokilta Top Dictator 3.0'
         mock_keyboard.return_value = mock_keyboard
 
-        with open('./fixtures/game_request.json') as f:
+        with open((os.path.dirname(__file__))+'/fixtures/game_request.json') as f:
             json_data = json.load(f)
 
         game_data = json_data['Games']
