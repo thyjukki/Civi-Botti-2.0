@@ -1,4 +1,5 @@
-from peewee import Proxy, Model, CharField, BigIntegerField, IntegerField, ForeignKeyField, BooleanField
+from peewee import Proxy, Model, CharField, BigIntegerField, IntegerField, \
+    ForeignKeyField, BooleanField
 
 database_proxy = Proxy()
 

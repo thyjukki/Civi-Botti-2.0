@@ -1,6 +1,6 @@
 import telegram
-from telegram import ReplyKeyboardRemove
-from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, Filters
+from telegram.ext import CommandHandler, ConversationHandler, MessageHandler,\
+    Filters
 
 from civbot.commands.cmd_cancel import cancel_all
 from civbot.models import User
@@ -52,7 +52,9 @@ def verify(bot, update):
 def handle():
 
     return ConversationHandler(
-        entry_points=[CommandHandler('unregister', unregister, filters=Filters.private)],
+        entry_points=[
+            CommandHandler('unregister', unregister, filters=Filters.private)
+        ],
 
         states={
             VERIFY: [MessageHandler(Filters.text, verify)],

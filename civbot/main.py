@@ -5,7 +5,8 @@ import logging
 from peewee import SqliteDatabase
 from telegram.ext import Updater
 
-from civbot.commands import cmd_register, cmd_unregister, cmd_start, cmd_new_game, cmd_add_game
+from civbot.commands import cmd_register, cmd_unregister, cmd_start, \
+    cmd_new_game, cmd_add_game
 from civbot.jobs import job_games
 from civbot.models import database_proxy, User, Game, Subscription
 

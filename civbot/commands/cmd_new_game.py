@@ -1,5 +1,6 @@
 import telegram
-from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, Filters
+from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, \
+    Filters
 
 from civbot import gmr
 from civbot.commands.cmd_cancel import cancel_all
@@ -21,7 +22,12 @@ def new_game(bot, update):
         update.message.reply_text('You are not part of any games')
         return ConversationHandler.END
 
-    games = list(filter(lambda x: not Game.select().where(Game.id == x['GameId']).exists(), games))
+    games = list(
+        filter(
+            lambda x: not Game.select().where(Game.id == x['GameId']).exists(),
+            games
+        )
+    )
 
     if len(games) == 0:
         update.message.reply_text('No games to be added')
@@ -40,7 +46,10 @@ def new_game(bot, update):
 
 def select_game(bot, update):
     if update.message.text == 'cancel':
-        update.message.reply_text('Canceled', reply_markup=telegram.ReplyKeyboardRemove())
+        update.message.reply_text(
+            'Canceled',
+            reply_markup=telegram.ReplyKeyboardRemove()
+        )
         return ConversationHandler.END
 
     user = User.get_or_none(User.id == update.message.from_user.id)
@@ -49,12 +58,18 @@ def select_game(bot, update):
     game = [g for g in games if g['Name'] == update.message.text]
 
     if len(game) == 0:
-        update.message.reply_text('Game does not exist', reply_markup=telegram.ReplyKeyboardRemove())
+        update.message.reply_text(
+            'Game does not exist',
+            reply_markup=telegram.ReplyKeyboardRemove()
+        )
         return ConversationHandler.END
     game = game[0]
 
     if Game.select().where(Game.id == game['GameId']).exists():
-        update.message.reply_text('Game already registered', reply_markup=telegram.ReplyKeyboardRemove())
+        update.message.reply_text(
+            'Game already registered',
+            reply_markup=telegram.ReplyKeyboardRemove()
+        )
         return ConversationHandler.END
 
     game = Game.create(
@@ -64,7 +79,10 @@ def select_game(bot, update):
         current_steam_id=game['CurrentTurn']['UserId']
     )
 
-    update.message.reply_text(f'Game {game.name} registered', reply_markup=telegram.ReplyKeyboardRemove())
+    update.message.reply_text(
+        f'Game {game.name} registered',
+        reply_markup=telegram.ReplyKeyboardRemove()
+    )
 
     return ConversationHandler.END
 
@@ -72,7 +90,9 @@ def select_game(bot, update):
 def handle():
 
     return ConversationHandler(
-        entry_points=[CommandHandler('newgame', new_game, filters=Filters.private)],
+        entry_points=[
+            CommandHandler('newgame', new_game, filters=Filters.private)
+        ],
 
         states={
             SELECT: [MessageHandler(Filters.text, select_game)],

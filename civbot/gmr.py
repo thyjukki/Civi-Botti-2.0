@@ -6,7 +6,8 @@ from civbot.exceptions import InvalidAuthKey, GameNoLongerExist
 
 
 def get_steam_id_from_auth(authkey) -> str:
-    url = os.getenv('GMR_URL') + "/api/Diplomacy/AuthenticateUser?authKey=" + authkey
+    url = os.getenv('GMR_URL') + \
+        f"/api/Diplomacy/AuthenticateUser?authKey={authkey}"
 
     r = requests.get(url)
     if r.text == 'null':
@@ -16,7 +17,8 @@ def get_steam_id_from_auth(authkey) -> str:
 
 def get_games(steam_id, authorization_key) -> list:
     url = os.getenv('GMR_URL') + \
-          f"/api/Diplomacy/GetGamesAndPlayers?playerIDText={steam_id}&authKey={authorization_key}"
+        "/api/Diplomacy/GetGamesAndPlayers?p" \
+        f"layerIDText={steam_id}&authKey={authorization_key}"
 
     r = requests.get(url)
 
@@ -25,7 +27,8 @@ def get_games(steam_id, authorization_key) -> list:
 
 def get_game_data(game):
     url = os.getenv('GMR_URL') + \
-          f"/api/Diplomacy/GetGamesAndPlayers?playerIDText={game.owner.steam_id}&authKey={game.owner.authorization_key}"
+          "/api/Diplomacy/GetGamesAndPlayers?playerIDText=" \
+          "{game.owner.steam_id}&authKey={game.owner.authorization_key}"
 
     r = requests.get(url)
 
