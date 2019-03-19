@@ -14,7 +14,7 @@ node('virtualenv&&python3') {
                     sh 'pip install -r requirements.txt'
                 }
                 stage('Lint') {
-                    sh 'pycodestyle'
+                    sh 'pycodestyle civbot'
                 }
                 stage('UnitTest') {
                     sh 'python -m unittest discover ./tests'
