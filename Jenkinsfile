@@ -13,6 +13,9 @@ node('virtualenv&&python3') {
                 stage('Build') {
                     sh 'pip install -r requirements.txt'
                 }
+                stage('Lint') {
+                    sh 'pylint'
+                }
                 stage('UnitTest') {
                     sh 'python -m unittest discover ./tests'
                 }
