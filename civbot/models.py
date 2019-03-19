@@ -1,3 +1,4 @@
+import telegram
 from peewee import Proxy, Model, CharField, BigIntegerField, IntegerField, \
     ForeignKeyField, BooleanField
 
@@ -14,9 +15,8 @@ class BaseModel(Model):
 
 class User(BaseModel):
     id = BigIntegerField(primary_key=True)
-    steam_id = CharField()
+    steam_id = BigIntegerField()
     authorization_key = CharField()
-
 
 class Game(BaseModel):
 

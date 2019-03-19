@@ -14,7 +14,7 @@ class TestUnregister(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User])
-        User.create(id=111, steam_id='', authorization_key='')
+        User.create(id=111, steam_id=0, authorization_key='')
 
         mock_keyboard.return_value = mock_keyboard
         bot_mock = Mock()
@@ -48,7 +48,7 @@ class TestUnregister(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User])
-        User.create(id=111, steam_id='', authorization_key='')
+        User.create(id=111, steam_id=0, authorization_key='')
 
         bot_mock = Mock()
         update_mock = Mock()
@@ -68,7 +68,7 @@ class TestUnregister(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User])
-        User.create(id=111, steam_id='', authorization_key='')
+        User.create(id=111, steam_id=0, authorization_key='')
 
         bot_mock = Mock()
         update_mock = Mock()

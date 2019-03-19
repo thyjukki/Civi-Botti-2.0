@@ -28,7 +28,7 @@ class TestNewGame(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User, Game])
-        User.create(id=111, steam_id='', authorization_key='')
+        User.create(id=111, steam_id=0, authorization_key='')
 
         bot_mock = Mock()
         update_mock = Mock()
@@ -44,7 +44,7 @@ class TestNewGame(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User, Game])
-        mock_user = User.create(id=111, steam_id='', authorization_key='')
+        mock_user = User.create(id=111, steam_id=0, authorization_key='')
         Game.create(id=27532, owner=mock_user, name='test game')
 
         bot_mock = Mock()
@@ -66,7 +66,7 @@ class TestNewGame(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User, Game])
-        User.create(id=111, steam_id='', authorization_key='')
+        User.create(id=111, steam_id=0, authorization_key='')
 
         mock_keyboard.return_value = mock_keyboard
         bot_mock = Mock()
@@ -99,7 +99,7 @@ class TestNewGame(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User])
-        User.create(id=111, steam_id='', authorization_key='')
+        User.create(id=111, steam_id=0, authorization_key='')
 
         bot_mock = Mock()
         update_mock = Mock()
@@ -122,7 +122,7 @@ class TestNewGame(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User, Game])
-        mock_user = User.create(id=111, steam_id='', authorization_key='')
+        mock_user = User.create(id=111, steam_id=0, authorization_key='')
         Game.create(id=27532, owner=mock_user, name='Tietokilta Top Dictator 3.0')
 
         bot_mock = Mock()
@@ -146,7 +146,7 @@ class TestNewGame(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User, Game])
-        mock_user = User.create(id=111, steam_id='', authorization_key='')
+        mock_user = User.create(id=111, steam_id=0, authorization_key='')
 
         bot_mock = Mock()
         update_mock = Mock()

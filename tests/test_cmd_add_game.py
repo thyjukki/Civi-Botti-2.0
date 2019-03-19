@@ -25,7 +25,7 @@ class TestAddGame(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User])
-        User.create(id=111, steam_id='', authorization_key='')
+        User.create(id=111, steam_id=0, authorization_key='')
 
         admin_mock = Mock()
         admin_mock.user.id = 23
@@ -41,7 +41,7 @@ class TestAddGame(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User, Game])
-        User.create(id=111, steam_id='', authorization_key='')
+        User.create(id=111, steam_id=0, authorization_key='')
 
         admin_mock = Mock()
         admin_mock.user.id = 111
@@ -57,7 +57,7 @@ class TestAddGame(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User, Game, Subscription])
-        user_mock = User.create(id=111, steam_id='', authorization_key='')
+        user_mock = User.create(id=111, steam_id=0, authorization_key='')
         Game.create(id=1, owner=user_mock, name='test game', active=False)
 
         admin_mock = Mock()
@@ -75,7 +75,7 @@ class TestAddGame(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User, Game, Subscription])
-        user_mock = User.create(id=111, steam_id='', authorization_key='')
+        user_mock = User.create(id=111, steam_id=0, authorization_key='')
         game_mock = Game.create(id=1, owner=user_mock, name='test game')
         Subscription.create(game=game_mock, chat_id=1234)
 
@@ -95,7 +95,7 @@ class TestAddGame(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User, Game, Subscription])
-        user_mock = User.create(id=111, steam_id='', authorization_key='')
+        user_mock = User.create(id=111, steam_id=0, authorization_key='')
         Game.create(id=1, owner=user_mock, name='test game')
 
         mock_keyboard.return_value = mock_keyboard
@@ -116,7 +116,7 @@ class TestAddGame(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User, Game, Subscription])
-        user_mock = User.create(id=111, steam_id='', authorization_key='')
+        user_mock = User.create(id=111, steam_id=0, authorization_key='')
         Game.create(id=1, owner=user_mock, name='test game')
 
         mock_keyboard.return_value = mock_keyboard
@@ -133,7 +133,7 @@ class TestAddGame(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User, Game, Subscription])
-        user_mock = User.create(id=111, steam_id='', authorization_key='')
+        user_mock = User.create(id=111, steam_id=0, authorization_key='')
         game_mock = Game.create(id=1, owner=user_mock, name='test game')
         Subscription.create(game=game_mock, chat_id=1234)
 
@@ -162,7 +162,7 @@ class TestAddGame(TestCase):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
         database.create_tables([User, Game, Subscription])
-        user_mock = User.create(id=111, steam_id='', authorization_key='')
+        user_mock = User.create(id=111, steam_id=0, authorization_key='')
         game_mock = Game.create(id=1, owner=user_mock, name='test game')
 
         mock_keyboard.return_value = mock_keyboard

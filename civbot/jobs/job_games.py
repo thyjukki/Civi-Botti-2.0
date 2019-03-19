@@ -1,5 +1,7 @@
+from steamwebapi import profiles
+
 from civbot import gmr
-from civbot.models import Game
+from civbot.models import Game, User
 from civbot.exceptions import GameNoLongerExist
 
 
@@ -19,7 +21,15 @@ def poll_game(bot, game):
 
     game.current_steam_id = data['CurrentTurn']['UserId']
     game.save()
-    player_name = game.current_steam_id
+
+    current_user = User.get_or_none(User.steam_id == game.current_steam_id)
+
+    if current_user:
+        player_name = f'@{bot.get_chat(current_user.id).username}'
+    else:
+        user_profile = profiles.get_user_profile(f'{game.current_steam_id}')
+        player_name = user_profile.personaname
+    #
     for subscription in game.subscriptions:
         bot.send_message(
             chat_id=subscription.chat_id,
