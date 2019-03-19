@@ -7,7 +7,7 @@ from peewee import SqliteDatabase
 
 from civbot.exceptions import GameNoLongerExist
 from civbot.jobs import job_games
-from models import Game, database_proxy, User, Subscription
+from civbot.models import Game, database_proxy, User, Subscription
 
 
 class TestGameJob(TestCase):
