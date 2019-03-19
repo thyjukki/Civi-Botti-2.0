@@ -60,7 +60,7 @@ class TestGameJob(TestCase):
             owner=user,
             current_steam_id=76561198002501851
         )
-        Subscription.create(game=game, chat_id=1234)test_job_game
+        Subscription.create(game=game, chat_id=1234)
 
         with open((os.path.dirname(__file__))+'/fixtures/game_request.json') as f:
             json_data = json.load(f)
