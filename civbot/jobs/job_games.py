@@ -1,11 +1,11 @@
-from exceptions import GameNoLongerExist
-from gmr import get_game_data
+from civbot import gmr
 from civbot.models import Game
+from civbot.exceptions import GameNoLongerExist
 
 
 def poll_game(bot, game):
     try:
-        data = get_game_data(game)
+        data = gmr.get_game_data(game)
     except GameNoLongerExist:
         game.active = False
         game.save()
@@ -18,6 +18,7 @@ def poll_game(bot, game):
         return False
 
     game.current_steam_id = data['CurrentTurn']['UserId']
+    game.save()
     player_name = game.current_steam_id
     for subscription in game.subscriptions:
         bot.send_message(
