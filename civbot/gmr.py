@@ -7,6 +7,7 @@ from civbot.exceptions import InvalidAuthKey, GameNoLongerExist
 
 def get_steam_id_from_auth(authkey) -> str:
     url = os.getenv('GMR_URL') + "/api/Diplomacy/AuthenticateUser?authKey=" + authkey
+    print(authkey)
 
     r = requests.get(url)
     if r.text == 'null':

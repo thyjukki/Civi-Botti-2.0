@@ -6,7 +6,7 @@ from unittest.mock import Mock, patch
 from peewee import SqliteDatabase
 
 from civbot.exceptions import GameNoLongerExist
-from jobs import job_games
+from civbot.jobs import job_games
 from models import Game, database_proxy, User, Subscription
 
 
@@ -60,7 +60,7 @@ class TestGameJob(TestCase):
             owner=user,
             current_steam_id=76561198002501851
         )
-        Subscription.create(game=game, chat_id=1234)
+        Subscription.create(game=game, chat_id=1234)test_job_game
 
         with open((os.path.dirname(__file__))+'/fixtures/game_request.json') as f:
             json_data = json.load(f)
