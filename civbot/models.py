@@ -1,4 +1,4 @@
-from peewee import Proxy, Model, CharField, BigIntegerField, IntegerField, ForeignKeyField
+from peewee import Proxy, Model, CharField, BigIntegerField, IntegerField, ForeignKeyField, BooleanField
 
 database_proxy = Proxy()
 
@@ -6,6 +6,9 @@ database_proxy = Proxy()
 class BaseModel(Model):
     class Meta:
         database = database_proxy
+
+    def refresh(self):
+        return type(self).get(self._pk_expr())
 
 
 class User(BaseModel):
@@ -15,9 +18,12 @@ class User(BaseModel):
 
 
 class Game(BaseModel):
+
     id = IntegerField(primary_key=True)
     owner = ForeignKeyField(User, backref='games')
     name = CharField()
+    active = BooleanField(default=True)
+    current_steam_id = BigIntegerField(null=True)
 
 
 class Subscription(BaseModel):

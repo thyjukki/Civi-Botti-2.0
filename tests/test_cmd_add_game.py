@@ -53,6 +53,24 @@ class TestAddGame(TestCase):
         self.assertEqual(ConversationHandler.END, cmd_add_game.add_game(bot_mock, update_mock))
         update_mock.message.reply_text.assert_called_with("You don't have any registered games")
 
+    def test_add_game_should_display_error_if_no_active_games(self):
+        database = SqliteDatabase(':memory:')
+        database_proxy.initialize(database)
+        database.create_tables([User, Game, Subscription])
+        user_mock = User.create(id=111, steam_id='', authorization_key='')
+        Game.create(id=1, owner=user_mock, name='test game', active=False)
+
+        admin_mock = Mock()
+        admin_mock.user.id = 111
+        bot_mock = Mock()
+        bot_mock.get_chat_administrators.return_value = [admin_mock]
+        update_mock = Mock()
+        update_mock.message.from_user.id = 111
+        update_mock.message.chat_id = 1234
+
+        self.assertEqual(ConversationHandler.END, cmd_add_game.add_game(bot_mock, update_mock))
+        update_mock.message.reply_text.assert_called_with("You don't have any active games")
+
     def test_add_game_should_display_error_if_no_only_registered_game_is_added(self):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)

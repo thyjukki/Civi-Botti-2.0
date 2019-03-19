@@ -6,7 +6,8 @@ from peewee import SqliteDatabase
 from telegram.ext import Updater
 
 from civbot.commands import cmd_register, cmd_unregister, cmd_start, cmd_new_game, cmd_add_game
-from civbot.models import database_proxy, User, Game
+from civbot.jobs import job_games
+from civbot.models import database_proxy, User, Game, Subscription
 
 
 def main():
@@ -18,7 +19,7 @@ def main():
     database = SqliteDatabase('db.sqlite')
 
     database_proxy.initialize(database)
-    database.create_tables([User, Game])
+    database.create_tables([User, Game, Subscription])
     try:
         updater = Updater(token=os.environ['TG_TOKEN'])
     except KeyError:
@@ -31,6 +32,8 @@ def main():
     dispatcher.add_handler(cmd_new_game.handle())
     dispatcher.add_handler(cmd_add_game.handle())
 
+    updater.job_queue.run_repeating(job_games.poll_games, interval=30, first=0)
+    updater.job_queue.start()
     updater.start_polling()
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,

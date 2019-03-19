@@ -170,3 +170,5 @@ class TestNewGame(TestCase):
         self.assertIsNotNone(game)
         self.assertEqual(mock_user, game.owner)
         self.assertEqual('Tietokilta Top Dictator 3.0', game.name)
+        self.assertEqual(76561198002501851, game.current_steam_id)
+        self.assertEqual(True, game.active)

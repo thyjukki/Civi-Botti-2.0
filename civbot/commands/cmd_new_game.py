@@ -3,7 +3,6 @@ from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, Fi
 
 from civbot import gmr
 from civbot.commands.cmd_cancel import cancel_all
-from civbot.exceptions import InvalidAuthKey
 from civbot.models import User, Game
 
 SELECT = 1
@@ -41,7 +40,7 @@ def new_game(bot, update):
 
 def select_game(bot, update):
     if update.message.text == 'cancel':
-        update.message.reply_text('Canceled', reply_markup=telegram.ReplyKeyboardRemove)
+        update.message.reply_text('Canceled', reply_markup=telegram.ReplyKeyboardRemove())
         return ConversationHandler.END
 
     user = User.get_or_none(User.id == update.message.from_user.id)
@@ -50,21 +49,22 @@ def select_game(bot, update):
     game = [g for g in games if g['Name'] == update.message.text]
 
     if len(game) == 0:
-        update.message.reply_text('Game does not exist', reply_markup=telegram.ReplyKeyboardRemove)
+        update.message.reply_text('Game does not exist', reply_markup=telegram.ReplyKeyboardRemove())
         return ConversationHandler.END
     game = game[0]
 
     if Game.select().where(Game.id == game['GameId']).exists():
-        update.message.reply_text('Game already registered', reply_markup=telegram.ReplyKeyboardRemove)
+        update.message.reply_text('Game already registered', reply_markup=telegram.ReplyKeyboardRemove())
         return ConversationHandler.END
 
     game = Game.create(
         id=game['GameId'],
         owner=user,
-        name=game['Name']
+        name=game['Name'],
+        current_steam_id=game['CurrentTurn']['UserId']
     )
 
-    update.message.reply_text(f'Game {game.name} registered', reply_markup=telegram.ReplyKeyboardRemove)
+    update.message.reply_text(f'Game {game.name} registered', reply_markup=telegram.ReplyKeyboardRemove())
 
     return ConversationHandler.END
 
