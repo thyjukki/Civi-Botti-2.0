@@ -19,6 +19,14 @@ node('virtualenv&&python3') {
                 stage('UnitTest') {
                     sh 'python -m unittest discover ./tests'
                 }
+                stage('UnitTest') {
+                    sh 'python -m unittest discover ./tests'
+                }
+                if (env.BRANCH_NAME == 'master') {
+                    stage('UnitTest') {
+                        build 'civi-botti-deploy'
+                    }
+                }
             }
         }
     }
