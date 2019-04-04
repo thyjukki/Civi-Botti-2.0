@@ -11,6 +11,50 @@ from civbot.models import Game, database_proxy, User, Subscription, Player
 
 
 class TestGameJob(TestCase):
+
+    @patch('civbot.jobs.job_games.poll_game')
+    def test_poll_games_should_not_poll_inactive_game(self, mock_poll_game):
+        bot_mock = Mock()
+        job_mock = Mock()
+        database = SqliteDatabase(':memory:')
+        database_proxy.initialize(database)
+        database.create_tables([User, Game])
+
+        user = User.create(id=111, steam_id=0, authorization_key='')
+        Game.create(
+            id=27000,
+            name='Test Game',
+            owner=user,
+            active=False
+        )
+
+        job_games.poll_games(bot_mock, job_mock)
+        mock_poll_game.assert_not_called()
+
+    @patch('civbot.jobs.job_games.poll_game')
+    @patch('civbot.models.Game.select')
+    def test_poll_games_should_call_poll_for_active_game(
+            self,
+            mock_game_select,
+            mock_poll_game
+    ):
+        bot_mock = Mock()
+        job_mock = Mock()
+        database = SqliteDatabase(':memory:')
+        database_proxy.initialize(database)
+        database.create_tables([User, Game])
+
+        user = User.create(id=111, steam_id=0, authorization_key='')
+        game = Game.create(
+            id=27000,
+            name='Test Game',
+            owner=user
+        )
+        mock_game_select.return_value = [game]
+
+        job_games.poll_games(bot_mock, job_mock)
+        mock_poll_game.assert_called_with(bot_mock, game)
+
     @patch('civbot.gmr.get_game_data')
     def test_poll_game_should_fail_and_deactivate_game_if_it_no_longer_exists(
             self,

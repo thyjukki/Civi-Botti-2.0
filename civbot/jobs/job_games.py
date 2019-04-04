@@ -6,6 +6,7 @@ from civbot.exceptions import GameNoLongerExist
 
 
 def poll_game(bot, game):
+
     try:
         data = gmr.get_game_data(game)
     except GameNoLongerExist:
@@ -39,4 +40,5 @@ def poll_game(bot, game):
 
 def poll_games(bot, job):
     for game in Game.select():
-        poll_game(bot, game)
+        if game.active:
+            poll_game(bot, game)

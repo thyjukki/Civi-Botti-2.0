@@ -26,9 +26,38 @@ class TestOrder(TestCase):
         )
 
     @patch('civbot.gmr.get_games')
+    def test_order_should_fail_if_game_is_not_active(
+        self,
+        get_games_mock
+    ):
+        database = SqliteDatabase(':memory:')
+        database_proxy.initialize(database)
+        database.create_tables([User, Game, Subscription])
+
+        bot_mock = Mock()
+        update_mock = Mock()
+        update_mock.message.from_user.id = 0
+        update_mock.message.chat_id = 1234
+
+        user_mock = User.create(id=111, steam_id=0, authorization_key='')
+        game_mock = Game.create(
+            id=1,
+            owner=user_mock,
+            name='test game',
+            active=False
+        )
+        Subscription.create(game=game_mock, chat_id=1234)
+
+        cmd_order.order(bot_mock, update_mock)
+        update_mock.message.reply_text.assert_called_with(
+            'Game is over'
+        )
+        get_games_mock.assert_not_called()
+
+    @patch('civbot.gmr.get_games')
     def test_order_should_fail_if_game_does_not_exist_anymore(
-            self,
-            get_games_mock
+        self,
+        get_games_mock
     ):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
@@ -50,7 +79,8 @@ class TestOrder(TestCase):
             'Game is over'
         )
 
-    def get_name_from_steam_id(self, steam_id):
+    @staticmethod
+    def get_name_from_steam_id(steam_id):
         name = {
             '76561190000000001': 'Player1',
             '76561190000000002': 'Player2',
@@ -71,9 +101,9 @@ class TestOrder(TestCase):
     )
     @patch('civbot.gmr.get_games')
     def test_order_should_display_order_of_players(
-            self,
-            get_games_mock,
-            mock_get_user_profile
+        self,
+        get_games_mock,
+        mock_get_user_profile
     ):
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)

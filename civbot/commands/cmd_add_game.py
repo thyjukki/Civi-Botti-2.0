@@ -115,7 +115,6 @@ def select_game(bot, update):
 
 
 def handle():
-
     return ConversationHandler(
         entry_points=[CommandHandler('addgame', add_game)],
 

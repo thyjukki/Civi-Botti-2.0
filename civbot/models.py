@@ -34,6 +34,9 @@ class Game(BaseModel):
         ).get()
 
     def ongoing(self):
+        if not self.active:
+            return False
+
         games = gmr.get_games(
             self.owner.steam_id,
             self.owner.authorization_key
