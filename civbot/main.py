@@ -8,7 +8,7 @@ from telegram.ext import Updater
 from civbot.commands import cmd_register, cmd_unregister, cmd_start, \
     cmd_new_game, cmd_add_game
 from civbot.jobs import job_games
-from civbot.models import database_proxy, User, Game, Subscription
+from civbot.models import database_proxy, User, Game, Subscription, Player
 
 
 def main():
@@ -20,7 +20,7 @@ def main():
     database = SqliteDatabase('db.sqlite')
 
     database_proxy.initialize(database)
-    database.create_tables([User, Game, Subscription])
+    database.create_tables([User, Game, Player, Subscription])
     try:
         updater = Updater(token=os.environ['TG_TOKEN'])
     except KeyError:

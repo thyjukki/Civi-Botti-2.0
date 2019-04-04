@@ -7,7 +7,7 @@ from peewee import SqliteDatabase
 
 from civbot.exceptions import GameNoLongerExist
 from civbot.jobs import job_games
-from civbot.models import Game, database_proxy, User, Subscription
+from civbot.models import Game, database_proxy, User, Subscription, Player
 
 
 class TestGameJob(TestCase):
@@ -23,8 +23,8 @@ class TestGameJob(TestCase):
 
         user = User.create(id=111, steam_id=0, authorization_key='')
         game = Game.create(
-            id=27532,
-            name='Tietokilta Top Dictator 3.0',
+            id=27000,
+            name='Test Game',
             owner=user
         )
 
@@ -52,8 +52,8 @@ class TestGameJob(TestCase):
 
         user = User.create(id=111, steam_id=0, authorization_key='')
         game = Game.create(
-            id=27532,
-            name='Tietokilta Top Dictator 3.0',
+            id=27000,
+            name='Test Game',
             owner=user
         )
 
@@ -73,10 +73,10 @@ class TestGameJob(TestCase):
 
         user = User.create(id=111, steam_id=0, authorization_key='')
         game = Game.create(
-            id=27532,
-            name='Tietokilta Top Dictator 3.0',
+            id=27000,
+            name='Test Game',
             owner=user,
-            current_steam_id=76561198002501851
+            current_steam_id=76561190000000003
         )
         Subscription.create(game=game, chat_id=1234)
 
@@ -99,20 +99,32 @@ class TestGameJob(TestCase):
         bot_mock.get_chat.return_value.username = 'test_user'
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
-        database.create_tables([User, Game, Subscription])
+        database.create_tables([User, Game, Player, Subscription])
 
         user = User.create(
             id=111,
-            steam_id=76561198002501851,
+            steam_id=76561190000000003,
             authorization_key=''
         )
         game = Game.create(
-            id=27532,
-            name='Tietokilta Top Dictator 3.0',
+            id=27000,
+            name='Test Game',
             owner=user,
-            current_steam_id=76561198036077154
+            current_steam_id=76561190000000002
         )
         Subscription.create(game=game, chat_id=1234)
+        Player.insert_many(
+            [
+                {'steam_id': 76561190000000001, 'game_id': 27000, 'order': 0},
+                {'steam_id': 76561190000000002, 'game_id': 27000, 'order': 1},
+                {'steam_id': 76561190000000003, 'game_id': 27000, 'order': 2},
+                {'steam_id': 76561190000000004, 'game_id': 27000, 'order': 3},
+                {'steam_id': 76561190000000005, 'game_id': 27000, 'order': 4},
+                {'steam_id': 76561190000000006, 'game_id': 27000, 'order': 5},
+                {'steam_id': 76561190000000007, 'game_id': 27000, 'order': 6},
+                {'steam_id': 76561190000000008, 'game_id': 27000, 'order': 7}
+            ]
+        ).execute()
 
         with open((os.path.dirname(__file__))
                   + '/fixtures/game_request.json') as f:
@@ -123,7 +135,7 @@ class TestGameJob(TestCase):
         self.assertEqual(True, job_games.poll_game(bot_mock, game))
         game.refresh()
         self.assertEqual(True, game.active)
-        self.assertEqual(76561198002501851, game.current_steam_id)
+        self.assertEqual(76561190000000003, game.current_steam_id)
         bot_mock.send_message.assert_called_with(
             chat_id=1234,
             text="It's now your turn @test_user"
@@ -140,16 +152,28 @@ class TestGameJob(TestCase):
         bot_mock = Mock()
         database = SqliteDatabase(':memory:')
         database_proxy.initialize(database)
-        database.create_tables([User, Game, Subscription])
+        database.create_tables([User, Game, Player, Subscription])
 
         user = User.create(id=111, steam_id=0, authorization_key='')
         game = Game.create(
-            id=27532,
-            name='Tietokilta Top Dictator 3.0',
+            id=27000,
+            name='Test Game',
             owner=user,
-            current_steam_id=76561198036077154
+            current_steam_id=76561190000000002
         )
         Subscription.create(game=game, chat_id=1234)
+        Player.insert_many(
+            [
+                {'steam_id': 76561190000000001, 'game_id': 27000, 'order': 0},
+                {'steam_id': 76561190000000002, 'game_id': 27000, 'order': 1},
+                {'steam_id': 76561190000000003, 'game_id': 27000, 'order': 2},
+                {'steam_id': 76561190000000004, 'game_id': 27000, 'order': 3},
+                {'steam_id': 76561190000000005, 'game_id': 27000, 'order': 4},
+                {'steam_id': 76561190000000006, 'game_id': 27000, 'order': 5},
+                {'steam_id': 76561190000000007, 'game_id': 27000, 'order': 6},
+                {'steam_id': 76561190000000008, 'game_id': 27000, 'order': 7}
+            ]
+        ).execute()
 
         with open((os.path.dirname(__file__))
                   + '/fixtures/game_request.json') as f:
@@ -161,7 +185,7 @@ class TestGameJob(TestCase):
         self.assertEqual(True, job_games.poll_game(bot_mock, game))
         game.refresh()
         self.assertEqual(True, game.active)
-        self.assertEqual(76561198002501851, game.current_steam_id)
+        self.assertEqual(76561190000000003, game.current_steam_id)
         bot_mock.send_message.assert_called_with(
             chat_id=1234,
             text="It's now your turn steam_name"

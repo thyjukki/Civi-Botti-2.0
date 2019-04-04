@@ -1,90 +1,50 @@
 {
     "Games": [
         {
-            "Name": "Tietokilta Top Dictator 3.0",
-            "GameId": 27532,
+            "Name": "Test Game",
+            "GameId": 27000,
             "Players": [
                 {
-                    "UserId": 76561197998765777,
+                    "UserId": 76561190000000006,
                     "TurnOrder": 5
                 },
                 {
-                    "UserId": 76561198002501851,
-                    "TurnOrder": 14
-                },
-                {
-                    "UserId": 76561198004490337,
-                    "TurnOrder": 9
-                },
-                {
-                    "UserId": 76561198008320021,
-                    "TurnOrder": 12
-                },
-                {
-                    "UserId": 76561198009884223,
+                    "UserId": 76561190000000001,
                     "TurnOrder": 0
                 },
                 {
-                    "UserId": 76561198023686958,
-                    "TurnOrder": 10
-                },
-                {
-                    "UserId": 76561198024329938,
-                    "TurnOrder": 17
-                },
-                {
-                    "UserId": 76561198024949236,
-                    "TurnOrder": 11
-                },
-                {
-                    "UserId": 76561198025213815,
+                    "UserId": 76561190000000003,
                     "TurnOrder": 2
                 },
                 {
-                    "UserId": 76561198025303548,
+                    "UserId": 76561190000000005,
                     "TurnOrder": 4
                 },
                 {
-                    "UserId": 76561198025754197,
+                    "UserId": 76561190000000007,
                     "TurnOrder": 6
                 },
                 {
-                    "UserId": 76561198027043254,
+                    "UserId": 76561190000000002,
                     "TurnOrder": 1
                 },
                 {
-                    "UserId": 76561198032465132,
-                    "TurnOrder": 16
-                },
-                {
-                    "UserId": 76561198034255300,
-                    "TurnOrder": 15
-                },
-                {
-                    "UserId": 76561198036077154,
-                    "TurnOrder": 13
-                },
-                {
-                    "UserId": 76561198049163710,
+                    "UserId": 76561190000000008,
                     "TurnOrder": 7
                 },
                 {
-                    "UserId": 76561198074437429,
+                    "UserId": 76561190000000004,
                     "TurnOrder": 3
-                },
-                {
-                    "UserId": 76561198150023063,
-                    "TurnOrder": 8
                 }
             ],
             "CurrentTurn": {
                 "TurnId": 3134763,
                 "Number": 87,
-                "UserId": 76561198002501851,
+                "UserId": 76561190000000003,
                 "Started": "2019-02-08T11:05:00.31",
                 "Expires": null,
                 "Skipped": false,
-                "PlayerNumber": 14,
+                "PlayerNumber": 2,
                 "IsFirstTurn": false
             },
             "Type": 3
@@ -92,8 +52,8 @@
     ],
     "Players": [
         {
-            "SteamID": 76561198025213815,
-            "PersonaName": "Jukki",
+            "SteamID": 76561190000000007,
+            "PersonaName": "UserOwner",
             "AvatarUrl": "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/11/114afe398212b4bc4d33c0deda67df7d023816e0.jpg",
             "PersonaState": 1,
             "GameID": 0
