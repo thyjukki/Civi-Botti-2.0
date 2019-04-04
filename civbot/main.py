@@ -6,7 +6,7 @@ from peewee import SqliteDatabase
 from telegram.ext import Updater
 
 from civbot.commands import cmd_register, cmd_unregister, cmd_start, \
-    cmd_new_game, cmd_add_game
+    cmd_new_game, cmd_add_game, cmd_tee
 from civbot.jobs import job_games
 from civbot.models import database_proxy, User, Game, Subscription, Player
 
@@ -32,6 +32,7 @@ def main():
     dispatcher.add_handler(cmd_unregister.handle())
     dispatcher.add_handler(cmd_new_game.handle())
     dispatcher.add_handler(cmd_add_game.handle())
+    dispatcher.add_handler(cmd_tee.handle())
 
     updater.job_queue.run_repeating(job_games.poll_games, interval=30, first=0)
     updater.job_queue.start()

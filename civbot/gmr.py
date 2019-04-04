@@ -28,7 +28,7 @@ def get_games(steam_id, authorization_key) -> list:
 def get_game_data(game):
     url = os.getenv('GMR_URL') + \
           "/api/Diplomacy/GetGamesAndPlayers?playerIDText=" \
-          "{game.owner.steam_id}&authKey={game.owner.authorization_key}"
+          f"{game.owner.steam_id}&authKey={game.owner.authorization_key}"
 
     r = requests.get(url)
 

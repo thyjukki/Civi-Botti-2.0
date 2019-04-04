@@ -28,10 +28,15 @@ class Game(BaseModel):
     active = BooleanField(default=True)
     current_steam_id = BigIntegerField(null=True)
 
+    def current_player(self):
+        return self.players.select(
+            Player.steam_id == self.current_steam_id
+        ).get()
+
     def ongoing(self):
         games = gmr.get_games(
-            self.id,
-            self.owner.steam_id
+            self.owner.steam_id,
+            self.owner.authorization_key
         )
         return len([g for g in games if g['GameId'] == self.id]) == 1
 
