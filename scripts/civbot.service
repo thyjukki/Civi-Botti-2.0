@@ -1,0 +1,14 @@
+[Unit]
+Description=civbot
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=jukki
+WorkingDirectory=/home/jukki/civbot
+ExecStart=/home/jukki/civbot/venv/bin/python /home/jukki/civbot/civbot/main.py
+Restart=on-abort
+EnvironmentFile=/home/jukki/civbot/.env
+
+[Install]
+WantedBy=multi-user.target
