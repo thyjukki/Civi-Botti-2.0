@@ -3,6 +3,8 @@ sudo apt-get install python3 virtualenv -y
 
 sudo systemctl stop civbot.service
 
+cd /home/jukki/civbot
+
 virtualenv ./venv -p python3
 source ./venv/bin/activate
 pip install -r requirements.txt
