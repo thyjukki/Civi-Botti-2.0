@@ -29,8 +29,6 @@ def tee(bot, update):
     mp3_fp.seek(0)
     bot.send_voice(chat_id=chat_id, voice=mp3_fp)
 
-    update.message.reply_text(message)
-
 
 def handle():
     return CommandHandler('tee', tee)
